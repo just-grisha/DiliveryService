@@ -18,12 +18,10 @@ class ItemHandle:
         self.item = Item(store_id, provider_id, name, price)
 
     def get_item(self):
-
         return asdict(self.item)
 
     def change_item(self, key, val):
         self.item.__dict__[key] = val
-
 
 
 # DONE
@@ -74,6 +72,7 @@ class Storekeeper(Worker):
 
 class Store:
     items: [Item]
+
     def print_all_items(self):
         print("Название   |   стоимость")
         for item in self.items:
@@ -114,6 +113,18 @@ class Order:
     delivery_order_time: time
     storekeeper: Storekeeper
     courier: Courier
+
+
+class OrderHandle:
+    def __init__(self, status: str, items: list(Item), create_order_time: time, delivery_order_time: time,
+                 storekeeper: Storekeeper, courier: Courier):
+        self.item = Order(status, items, create_order_time, delivery_order_time, storekeeper, courier)
+
+    def get_order(self):
+        return asdict(self.item)
+
+    def change_order(self, key, val):
+        self.item.__dict__[key] = val
 
 
 # Что находится в заказе? Статус доставки, список товаров, время создания-время доставки, кто собирал-доставлял
