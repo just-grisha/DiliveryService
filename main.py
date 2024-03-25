@@ -18,6 +18,7 @@ class ItemHandle:
         self.item = Item(store_id, provider_id, name, price)
 
     def get_item(self):
+
         return asdict(self.item)
 
     def change_item(self, key, val):
