@@ -14,6 +14,7 @@ from Item import Item
 
 class Provider:  # поставщик
 
+
     items = dict()  # key - Item value - количество
     provider_id = 0
 
@@ -21,13 +22,25 @@ class Provider:  # поставщик
         self.name = name
         self.provider_id = provider_id
 
-    def send_order(self):
-        pass
+    def send_order(self, request):
+        """
+        :param request: [{ item: amount}]
+        :return: [{item: amount},{item: amount}...]
+        """
+
+        items_to_send = dict()
+        for i in request:
+            available_amount = 0
+            for key, value in i.items.items():# допилить проверку на существование товара на складе
+                requested_amount = i[key]
+                available_amount = self.items[key]
+                items_to_send[key] += available_amount - requested_amount
+                self.items[key] -= requested_amount # потестить уменьшается или нет
 
     # send_order - принять и отправить заказ складу
 
-    def update_stocks(self):
-        pass
+    def update_stocks(self, key, value):
+        cls.items[key].change_item(key, value)
 
     # update_stocks - обновить число товаров на складе
 
