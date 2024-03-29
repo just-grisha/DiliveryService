@@ -3,7 +3,7 @@ from datetime import time
 
 from create_items import create_items_to_provider
 from Item import Item
-
+from random import randint
 
 # DONE
 # Что должно быть? Id внутри системы складов, id внутри системы поставщика, название, себестоимость
@@ -14,33 +14,27 @@ from Item import Item
 
 class Provider:  # поставщик
 
-
-    items = dict()  # key - Item value - количество
-    provider_id = 0
-
+    provider_id = randint(1,1000) # пока что реализация такая #TODO сделать уникальный id
+    items = dict()
     def __init__(self, name, provider_id):
         self.name = name
-        self.provider_id = provider_id
 
     def send_order(self, request):
         """
-        :param request: [{ item: amount}]
+        :param request:
         :return: [{item: amount},{item: amount}...]
         """
 
-        items_to_send = dict()
-        for i in request:
-            available_amount = 0
-            for key, value in i.items.items():# допилить проверку на существование товара на складе
-                requested_amount = i[key]
-                available_amount = self.items[key]
-                items_to_send[key] += available_amount - requested_amount
-                self.items[key] -= requested_amount # потестить уменьшается или нет
-
     # send_order - принять и отправить заказ складу
 
-    def update_stocks(self, key, value):
-        cls.items[key].change_item(key, value)
+    @classmethod
+    def update_stocks(cls,what_to_update):
+        '''
+        Обновляет товары, если товара нет, то создает
+        :param what_to_update: { item : amount}
+        '''
+
+
 
     # update_stocks - обновить число товаров на складе
 
@@ -50,8 +44,9 @@ class Provider:  # поставщик
 
     @classmethod
     def print_all_provider_items(cls):
+        print(cls.items)
         for key, value in cls.items.items():
-            print(f"Название: {key.get_name()} | Количество: {value}")
+            print(f"Название: {key.name} | Количество: {value}")
 
 
 # TODO
@@ -161,4 +156,7 @@ class User:
 if __name__ == '__main__':
     provider1 = Provider("Поставщик1", 77)
     provider1.create_stock()
+    provider1.print_all_provider_items()
+    what_to_update = [{"Чайник":5000}]
+    provider1.update_stocks(what_to_update)
     provider1.print_all_provider_items()
