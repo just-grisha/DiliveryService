@@ -14,7 +14,7 @@ from random import randint
 
 class Provider:  # поставщик
 
-    provider_id = randint(1,1000) # пока что реализация такая #TODO сделать уникальный id
+    provider_id = randint(1,1000) # пока что реализация такая TODO сделать уникальный id
     items = dict()
     def __init__(self, name, provider_id):
         self.name = name
@@ -33,9 +33,9 @@ class Provider:  # поставщик
         Обновляет товары, если товара нет, то создает
         :param what_to_update: { item : amount}
         '''
-
-
-
+        # что делать когда нет такого товара?
+        for key, value in what_to_update.items():
+            cls.items[key] += value
     # update_stocks - обновить число товаров на складе
 
     @classmethod
