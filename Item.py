@@ -3,23 +3,22 @@ from dataclasses import dataclass, asdict
 
 @dataclass
 class Item:
-    store_id: int
-    provider_id: int
     name: str
-    price: float
+    price: int
 
 
+@dataclass
+class ProviderItem(Item):
+    provider_id: int
 
-class ItemHandle:
-    def __init__(self, store_id: int, provider_id: int, name: str, price: float):
-        self.item = Item(store_id, provider_id, name, price)
+    def __key(self):
+        return (self.name, self.provider_id)
 
-    def get_item(self):
-        return asdict(self.item)
+    def __hash__(self):  # делаем hashable чтобы класс можно было использовать в качестве ключа словаря
+        return hash(self.__key())
 
-    def change_item(self, key, val):
-        self.item.__dict__[key] = val
 
-    def get_name(self):
-        return self.item.name
-
+@dataclass
+class StoreItem:
+    item: Item
+    Store_id: int
