@@ -5,7 +5,7 @@ from create_items import create_items_to_provider
 from Item import Item
 from random import randint
 from order import Order
-
+from workers import Storekeeper,Courier
 
 
 
@@ -50,35 +50,6 @@ class Provider:  # поставщик
         for key, value in self.items.items():
             print(f"Название: {key.name} | Количество: {value}")
 
-
-class Worker:
-    name: str
-    age: int
-    month_time: time
-    is_busy: bool
-
-    def get_order(self):  #
-        pass
-
-    # принять заказ, если возможно
-
-    def get_shift(self):  # отработка по времени
-
-        pass  # докрутить статрт рабочей смены придумать график и т.д.
-    # получить смену, когда работает
-
-
-class Courier(Worker):
-    def __init__(self, name, age):
-        self.name = name
-        self.age = age
-
-    def get_order(self):
-        pass
-
-
-class Storekeeper(Worker):
-    pass
 
 
 class Store:
@@ -140,3 +111,4 @@ if __name__ == '__main__':
     what_to_update = {"Чайник":5000}
     provider1.update_stocks(what_to_update)
     provider1.print_all_provider_items()
+    print(time.time())
