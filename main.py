@@ -21,8 +21,12 @@ class Provider:  # поставщик
         :return: {item: amount}
         """
         order = dict()
+        # что если такого товара не существует?
         for key, value in request.items():
-            availible_amount = self.items[key]
+            available_amount = self.items[key]
+            order[key] = available_amount - request[key]
+            self.items[key] -= request[key]
+        return order
     # send_order - принять и отправить заказ складу
 
 
