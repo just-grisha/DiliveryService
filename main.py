@@ -21,32 +21,37 @@ class Time:
         pass
 
 class Store:
-    items = dict()
+    store_id= randint(1,1000)
+    store_items = dict()
     provider = Provider()
+
+    def __init__(self,name,store_id):
+        self.name = name
+        self.store_id = store_id
+
     def print_all_items(self):
         print("Название   |   стоимость")
-        for item in self.items:
+        for item in self.store_items:
             print(item.name, "|", item.price * 2)
-
 
     def find_provider(self):
         pass # для 2 части
 
-
     def send_request(self,request,provider):
         self.provider = provider
-        provider.send_order(request)
-
-
+        provider.take_order(request)
     # send_request - отправить заказ для провайдера (что привезти)
 
     def take_order(self):
-        # set_storkeeper
+        # set_storekeeper()
+        order = self.provider.send_order()
+        for key, value in order.order_items.items():
+            item_to_add =self.provider.find_item_by_name(key)
         pass
 
     # принять заказ и начать его обрабатывать
 
-    def set_courier(self, items):
+    def set_courier(self):
         pass
 
     # дать заказу курьера
