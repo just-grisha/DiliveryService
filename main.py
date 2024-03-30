@@ -15,6 +15,13 @@ class Provider:  # поставщик
     items = dict()
     def __init__(self, name, provider_id):
         self.name = name
+
+    def find_item_by_name(self, name):
+        for item in self.items.keys():
+            if item.name == name:
+                return item
+        return None
+
     def send_order(self, request):
         """
         :param request: {item: amount}
@@ -37,7 +44,9 @@ class Provider:  # поставщик
         '''
         # что делать когда нет такого товара?
         for key, value in what_to_update.items():
-            self.items[key] += value
+            item = self.find_item_by_name(key)
+            if item is not None:
+                self.items[item] += value
     # update_stocks - обновить число товаров на складе
 
 
