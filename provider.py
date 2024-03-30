@@ -30,6 +30,7 @@ class Provider:  # поставщик
             self.items[key] -= request[key]
         return order
 
+
     # send_order - принять и отправить заказ складу
 
     def update_stocks(self, what_to_update):

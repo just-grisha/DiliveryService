@@ -5,6 +5,7 @@ from create_items import create_items_to_provider
 from Item import Item
 from random import randint
 from order import Order
+from provider import Provider
 from workers import Storekeeper, Courier
 
 
@@ -20,15 +21,22 @@ class Time:
         pass
 
 class Store:
-    items: [Item]
-
+    items = dict()
+    provider = Provider()
     def print_all_items(self):
         print("Название   |   стоимость")
         for item in self.items:
             print(item.name, "|", item.price * 2)
 
-    def send_request(self):
-        pass
+
+    def find_provider(self):
+        pass # для 2 части
+
+
+    def send_request(self,request,provider):
+        self.provider = provider
+        provider.send_order(request)
+
 
     # send_request - отправить заказ для провайдера (что привезти)
 
