@@ -46,7 +46,9 @@ class Store:
         # set_storekeeper()
         order = self.provider.send_order()
         for key, value in order.order_items.items():
-            item_to_add =self.provider.find_item_by_name(key)
+            item_to_add = self.provider.find_item_by_name(key)
+            item_to_add.store_id = self.sotre_id
+            self.store_items[item_to_add] = value
         pass
 
     # принять заказ и начать его обрабатывать
