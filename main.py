@@ -4,7 +4,7 @@ from datetime import time
 from create_items import create_items_to_provider
 from Item import Item
 from random import randint
-
+from order import Order
 
 
 
@@ -114,16 +114,6 @@ class Store:
         pass
 
     # взять работника к себе и дать ему смену
-
-
-@dataclass
-class Order:
-    status: str
-    items: [Item]
-    create_order_time: time
-    delivery_order_time: time
-    storekeeper: Storekeeper
-    courier: Courier
 
 
 
