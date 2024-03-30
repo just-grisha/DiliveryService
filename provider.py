@@ -26,7 +26,7 @@ class Provider:  # поставщик
         # что если такого товара не существует?
         for key, value in request.items():
             available_amount = self.items[key]
-            order[key] = available_amount - request[key]
+            order[self.items[key]] = available_amount - request[key]
             self.items[key] -= request[key]
         return order
 
