@@ -5,47 +5,45 @@ from create_items import create_items_to_provider
 from Item import Item
 from random import randint
 
-# DONE
-# Что должно быть? Id внутри системы складов, id внутри системы поставщика, название, себестоимость
 
 
-# DONE
 
 
 class Provider:  # поставщик
 
-    provider_id = randint(1,1000) # пока что реализация такая TODO сделать уникальный id
+    provider_id = randint(1, 1000) # пока что реализация такая TODO сделать уникальный id
     items = dict()
     def __init__(self, name, provider_id):
         self.name = name
-
     def send_order(self, request):
         """
-        :param request:
-        :return: [{item: amount},{item: amount}...]
+        :param request: {item: amount}
+        :return: {item: amount}
         """
-
+        order = dict()
+        for key, value in request.items():
+            availible_amount = self.items[key]
     # send_order - принять и отправить заказ складу
 
-    @classmethod
-    def update_stocks(cls,what_to_update):
+
+    def update_stocks(self,what_to_update):
         '''
         Обновляет товары, если товара нет, то создает
         :param what_to_update: { item : amount}
         '''
         # что делать когда нет такого товара?
         for key, value in what_to_update.items():
-            cls.items[key] += value
+            self.items[key] += value
     # update_stocks - обновить число товаров на складе
 
-    @classmethod
-    def create_stock(cls):
-        cls.items = create_items_to_provider(cls.provider_id)
 
-    @classmethod
-    def print_all_provider_items(cls):
-        print(cls.items)
-        for key, value in cls.items.items():
+    def create_stock(self):
+        self.items = create_items_to_provider(self.provider_id)
+
+
+    def print_all_provider_items(self):
+        print(self.items)
+        for key, value in self.items.items():
             print(f"Название: {key.name} | Количество: {value}")
 
 
@@ -55,7 +53,7 @@ class Worker:
     name: str
     age: int
     month_time: time
-    is_bysy: bool
+    is_busy: bool
 
     def get_order(self):  #
         pass
@@ -157,6 +155,6 @@ if __name__ == '__main__':
     provider1 = Provider("Поставщик1", 77)
     provider1.create_stock()
     provider1.print_all_provider_items()
-    what_to_update = [{"Чайник":5000}]
+    what_to_update = {"Чайник":5000}
     provider1.update_stocks(what_to_update)
     provider1.print_all_provider_items()
