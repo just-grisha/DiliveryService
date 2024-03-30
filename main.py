@@ -1,18 +1,28 @@
-from dataclasses import dataclass, asdict
-from datetime import time
+import time
+import asyncio
 
 from create_items import create_items_to_provider
 from Item import Item
 from random import randint
 from order import Order
-from workers import Storekeeper,Courier
+from workers import Storekeeper, Courier
 
 
-
+class Time:
+    async def start_global_time(self):
+        print("зашло")
+        seconds = 0
+        while True:
+            print(f"Время: {seconds} сек")
+            await asyncio.sleep(1)
+            seconds += 1
+    def get_current_time(self):
+        pass
 class Provider:  # поставщик
 
-    provider_id = randint(1, 1000) # пока что реализация такая TODO сделать уникальный id
+    provider_id = randint(1, 1000)  # пока что реализация такая TODO сделать уникальный id
     items = dict()
+
     def __init__(self, name, provider_id):
         self.name = name
 
@@ -34,10 +44,10 @@ class Provider:  # поставщик
             order[key] = available_amount - request[key]
             self.items[key] -= request[key]
         return order
+
     # send_order - принять и отправить заказ складу
 
-
-    def update_stocks(self,what_to_update):
+    def update_stocks(self, what_to_update):
         '''
         Обновляет товары, если товара нет, то создает
         :param what_to_update: { item : amount}
@@ -47,18 +57,16 @@ class Provider:  # поставщик
             item = self.find_item_by_name(key)
             if item is not None:
                 self.items[item] += value
-    # update_stocks - обновить число товаров на складе
 
+    # update_stocks - обновить число товаров на складе
 
     def create_stock(self):
         self.items = create_items_to_provider(self.provider_id)
-
 
     def print_all_provider_items(self):
         print(self.items)
         for key, value in self.items.items():
             print(f"Название: {key.name} | Количество: {value}")
-
 
 
 class Store:
@@ -96,8 +104,6 @@ class Store:
     # взять работника к себе и дать ему смену
 
 
-
-
 # Что находится в заказе? Статус доставки, список товаров, время создания-время доставки, кто собирал-доставлял
 
 
@@ -117,7 +123,18 @@ if __name__ == '__main__':
     provider1 = Provider("Поставщик1", 77)
     provider1.create_stock()
     provider1.print_all_provider_items()
-    what_to_update = {"Чайник":5000}
+    what_to_update = {"Чайник": 5000}
     provider1.update_stocks(what_to_update)
     provider1.print_all_provider_items()
-    print(time.time())
+    mytime = Time()
+    time_task = asyncio.create_task(mytime.start_global_time())
+    # Другие команды, которые могут выполняться параллельно с таймером
+
+    # Пример:
+    asyncio.sleep(5)
+    print("Прошло 5 секунд")
+
+    # Ждем завершения задачи таймера
+    await time_task
+
+
