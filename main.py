@@ -51,8 +51,6 @@ class Provider:  # поставщик
             print(f"Название: {key.name} | Количество: {value}")
 
 
-# TODO
-
 class Worker:
     name: str
     age: int
@@ -128,16 +126,6 @@ class Order:
     courier: Courier
 
 
-class OrderHandle:
-    def __init__(self, status: str, items: [Item], create_order_time: time, delivery_order_time: time,
-                 storekeeper: Storekeeper, courier: Courier):
-        self.item = Order(status, items, create_order_time, delivery_order_time, storekeeper, courier)
-
-    def get_order(self):
-        return asdict(self.item)
-
-    def change_order(self, key, val):
-        self.item.__dict__[key] = val
 
 
 # Что находится в заказе? Статус доставки, список товаров, время создания-время доставки, кто собирал-доставлял
