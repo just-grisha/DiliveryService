@@ -1,56 +1,40 @@
 from random import randint
-
-from create_items import create_items_to_provider
-
-
-class Provider:  # поставщик
-
-    provider_id = randint(1, 1000)  # пока что реализация такая TODO сделать уникальный id
-    items = dict()
-
+from Item import Item
+from order import Order
+import time
+class Provider:
     def __init__(self, name, provider_id):
         self.name = name
+        self.provider_id = provider_id
+        self.inventory = {}
 
     def find_item_by_name(self, name):
-        for item in self.items.keys():
+        for item in self.inventory.keys():
             if item.name == name:
                 return item
         return None
 
     def send_order(self, request):
-        """
-        :param request: {item: amount}
-        :return: {item: amount}
-        """
-        order = dict()
-        # что если такого товара не существует?
-        for key, value in request.items():
-            available_amount = self.items[key]
-            order[self.items[key]] = available_amount - request[key]
-            self.items[key] -= request[key]
+        order_items = {}
+        for item, amount in request.items():
+            available_amount = self.inventory.get(item, 0)
+            if available_amount >= amount:
+                order_items[item] = amount
+                self.inventory[item] -= amount
+            else:
+                order_items[item] = available_amount
+                self.inventory[item] = 0
+        order = Order(status="Собран у поставщика", order_items=order_items,
+                      create_order_time= time.datetime.now(), delivery_order_time=None,
+                      storekeeper=None, courier=None)
         return order
 
-
-    # send_order - принять и отправить заказ складу
-
     def update_stocks(self, what_to_update):
-        '''
-        Обновляет товары, если товара нет, то создает
-        :param what_to_update: { item : amount}
-        '''
-        # что делать когда нет такого товара?
-        for key, value in what_to_update.items():
-            item = self.find_item_by_name(key)
-            if item is not None:
-                self.items[item] += value
-
-    # update_stocks - обновить число товаров на складе
-
-    def create_stock(self):
-        self.items = create_items_to_provider(self.provider_id)
-
+        for item, amount in what_to_update.items():
+            if item in self.inventory:
+                self.inventory[item] += amount
+            else:
+                self.inventory[item] = amount
     def print_all_provider_items(self):
-        print(self.items)
-        for key, value in self.items.items():
-            print(f"Название: {key.name} | Количество: {value}")
-
+        for item, amount in self.inventory.items():
+            print(f"Название: {item.name}, Количество: {amount}")

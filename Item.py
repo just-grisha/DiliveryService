@@ -1,4 +1,4 @@
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass
 
 
 @dataclass
@@ -9,7 +9,7 @@ class Item:
     store_id: int = 0
 
     def __key(self):
-        return (self.name, self.provider_id)
+        return (self.name,self.store_id)
 
     def __hash__(self):  # делаем hashable чтобы класс можно было использовать в качестве ключа словаря
         return hash(self.__key())
